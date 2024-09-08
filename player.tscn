@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://cuats87mi36ng"]
+
+[ext_resource type="Texture2D" uid="uid://dngnvrw1s7xse" path="res://icon.svg" id="1_22hly"]
+[ext_resource type="Script" path="res://player.gd" id="1_sakss"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r2uum"]
+size = Vector3(1.2, 1.2, 1)
+
+[sub_resource type="Animation" id="Animation_dw1hv"]
+resource_name = "switch_perspective"
+length = 0.3
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 7), Vector3(0, 3, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_r4wk6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8jcro"]
+_data = {
+"RESET": SubResource("Animation_r4wk6"),
+"switch_perspective": SubResource("Animation_dw1hv")
+}
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_sakss")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+texture = ExtResource("1_22hly")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_r2uum")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+projection = 1
+size = 10.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8jcro")
+}
